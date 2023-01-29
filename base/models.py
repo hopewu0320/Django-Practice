@@ -7,9 +7,9 @@ class Topic(models.Model):
     def __str__(self):
         return self.name
 class Room(models.Model):
-    host = models.ForeignKey(User,on_delete=models.SET_NULL, null=True)
-    topic = models.ForeignKey(Topic,on_delete=models.SET_NULL, null=True) #父刪除子的資料還留著 
-    name = models.CharField(max_length=2000)
+    host = models.ForeignKey(User,on_delete=models.SET_NULL, null=True) #ROOM裡面有很多個USER提供選擇
+    topic = models.ForeignKey(Topic,on_delete=models.SET_NULL, null=True) #父刪除子的資料還留著 #同一個TOPIC可以有很多個ROOM
+    name = models.CharField(max_length=200)
     description = models.TextField(null=True, blank=True)
     updated = models.DateTimeField(auto_now=True)   #每次save的時候會更新時間戳記
     created = models.DateTimeField(auto_now_add=True) #建造物件的時候的時間戳記
