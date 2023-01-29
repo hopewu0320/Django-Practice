@@ -1,0 +1,18 @@
+{% extends 'base/main.html' %} <!--代表繼承main這個父html-->
+
+{% block content %}
+<h1>Home Template</h1>
+<!--href= "{% url 'room' room.id %}可改成href="/room/{{room.id}}"-->
+<div>
+    <div>
+        
+        {% for room in rooms %}
+            <div>
+                <h5>{{room.id}} -- <a href= "{% url 'room' room.id %}">{{room.name}}</a></h5>
+            </div>
+        {% endfor %}
+        
+    </div>
+</div>
+
+{% endblock  %}

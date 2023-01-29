@@ -1,0 +1,17 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset='utf-8'>
+    <meta http-equiv='X-UA-Compatible' content='IE=edge'>
+    <title>StudyBud</title>
+    <meta name='viewport' content='width=device-width, initial-scale=1'>
+    <link rel='stylesheet' type='text/css' media='screen' href='main.css'>
+</head>
+<body>
+    {% include 'base/navbar.html' %} <!--重複利用navbar的模塊-->
+    {% block content %} <!--block+"name" 代表其他子html寫他們自己功能的地方-->
+    
+    {% endblock content %}
+    {% include 'base/navbar.html' %}
+</body>
+</html>
