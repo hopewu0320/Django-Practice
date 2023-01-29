@@ -21,7 +21,6 @@ from . import views
 可改成path("room_page/<str:pk>",views.room,name='room') 還是會根據name去執行
 '''
 urlpatterns = [
-    path("admin/", admin.site.urls),
     path("room/<str:pk>",views.room,name='room'), 
     path("",views.home,name='home')
 ]
