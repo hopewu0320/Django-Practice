@@ -15,6 +15,8 @@ class Room(models.Model):
     created = models.DateTimeField(auto_now_add=True) #建造物件的時候的時間戳記
     def __str__(self):
         return self.name  #stair=Room(name="樓梯") print(stair) output:樓梯
+    class Meta:
+        ordering = ('-created','-updated') #加- 以最新加入的擺在最上面
 
 class Message(models.Model):
     user = models.ForeignKey(User,on_delete=models.CASCADE)  #代表父親為Room 有很多Message(小孩)

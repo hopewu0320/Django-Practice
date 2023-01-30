@@ -22,5 +22,6 @@ from . import views
 '''
 urlpatterns = [
     path("room/<str:pk>",views.room,name='room'), 
-    path("",views.home,name='home')
+    path("",views.home,name='home'),
+    path("create-room/",views.createRoom,name='create-room'), 
 ]
