@@ -23,6 +23,23 @@ def createRoom(request):
         form=RoomForm(request.POST)
         if form.is_valid():
             form.save()      #存在資料庫(代表有這個room的所有資訊)
+            return redirect('home')  #使用urls.py的"name"
+    context={'form':form}
+    return render(request,'base/room_form.html',context)
+def updateRoom(request,pk):
+    room = Room.objects.get(id=pk)
+    form = RoomForm(instance=room)  #form的起始值是這個room的資訊
+    if request.method == 'POST':
+        form=RoomForm(request.POST,instance=room) #告訴她哪個room要更新(instance的部分)
+        if form.is_valid():
+            form.save()      #存在資料庫(代表有這個room的所有資訊)
             return redirect('home')
     context={'form':form}
     return render(request,'base/room_form.html',context)
+def deleteRoom(request,pk):
+    room = Room.objects.get(id=pk)
+    context={'obj':room}
+    if request.method == 'POST':
+        room.delete()
+        return redirect('home')
+    return render(request,'base/delete.html',context)
