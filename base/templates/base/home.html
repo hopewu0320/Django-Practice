@@ -1,7 +1,7 @@
 {% extends 'base/main.html' %} <!--代表繼承main這個父html-->
 <!--href= "{% url 'room' room.id %}可改成href="/room/{{room.id}}"-->
 {% block content %}
-
+<!--分成兩個區塊,一個topics一個為Browse Topics-->
 <style>
     .home-container {
         display:grid;
@@ -12,6 +12,16 @@
     <div>
         <h3>Browse Topics</h3>
         <hr>
+        
+        <div>
+            <a href="{% url 'home' %}">All</a>
+        </div>
+        <!--每點一次topic如(Python)就會進到以home為root的網頁 然後呼叫views.home-->
+        {% for topic in topics%}
+        <div>
+            <a href="{% url 'home' %}?q={{topic.name}}">{{topic.name}}</a>
+        </div>
+        {% endfor %}
     </div>
 
     <div>

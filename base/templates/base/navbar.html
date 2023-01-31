@@ -1,5 +1,10 @@
 <a href="/">
     <h1>LOGO</h1>
 </a>
+<!--會搜尋"q"加上你打的文字並且跳到home網頁上-->
+<form method="GET" action="{% url 'home' %}">
+    <input type="text" name="q" placeholder="Search Rooms"/>
+
+</form>
 
 <hr>
