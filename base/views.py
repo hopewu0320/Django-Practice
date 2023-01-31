@@ -1,5 +1,6 @@
 from django.shortcuts import render,redirect
 from django.http import HttpResponse
+from django.db.models import Q
 from .models import Room,Topic
 from .forms import RoomForm
 # Create your views here.
@@ -8,12 +9,18 @@ rooms=[
     {'id':2,'name':'Design with me'},
     {'id':3,'name':'Fronted developers'}
 ]
+def loginPage(request):
+    context= {}
+    return render(request, 'base/login_register.html',context)
 def home(request):
     print("HOME")
     q = request.GET.get('q') if request.GET.get('q') != None else '' #找url的"q"字串後的名稱
-    rooms = Room.objects.filter(topic__name__icontains=q) #topic名字
+    rooms = Room.objects.filter(Q(topic__name__icontains=q) |
+                                Q(name__icontains=q)  |
+                                Q(description__icontains=q) ) 
     topics = Topic.objects.all()
-    context={'rooms':rooms,'topics':topics}
+    room_count = rooms.count()
+    context={'rooms':rooms,'topics':topics,'room_count':room_count}
     return render(request,'base/home.html',context)
 def room(request,pk):
     room=Room.objects.get(id=pk)

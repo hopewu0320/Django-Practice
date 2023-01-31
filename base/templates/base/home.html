@@ -16,7 +16,7 @@
         <div>
             <a href="{% url 'home' %}">All</a>
         </div>
-        <!--每點一次topic如(Python)就會進到以home為root的網頁 然後呼叫views.home-->
+        <!--每點一次topic如(Python)就會match到path("",views.home,name='home') 執行views.home-->
         {% for topic in topics%}
         <div>
             <a href="{% url 'home' %}?q={{topic.name}}">{{topic.name}}</a>
@@ -25,6 +25,7 @@
     </div>
 
     <div>
+        <h5>{{room_count}} rooms available</h5>
         <a href="{% url 'create-room' %}">Create Room</a>
         <div>
             {% for room in rooms %}
