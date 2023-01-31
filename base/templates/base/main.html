@@ -9,6 +9,13 @@
 </head>
 <body>
     {% include 'base/navbar.html' %} <!--重複利用navbar的模塊-->
+    {% if messages %}
+    <ul class="messages">
+        {% for message in messages %}
+        <li{% if message.tags %} class="{{ message.tags }}"{% endif %}>{{ message }}</li>
+        {% endfor %}
+    </ul>
+    {% endif %}
     {% block content %} <!--block+"name" 代表其他子html寫他們自己功能的地方-->
     
     {% endblock content %}

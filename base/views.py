@@ -2,6 +2,9 @@ from django.shortcuts import render,redirect
 from django.http import HttpResponse
 from django.db.models import Q
 from .models import Room,Topic
+from django.contrib import messages
+from django.contrib.auth import authenticate,login,logout
+from django.contrib.auth.models import User
 from .forms import RoomForm
 # Create your views here.
 rooms=[
@@ -10,8 +13,24 @@ rooms=[
     {'id':3,'name':'Fronted developers'}
 ]
 def loginPage(request):
+    if request.method == 'POST':
+        username=request.POST.get('username')
+        password=request.POST.get('password')
+        try:
+            user=User.objects.get(username=username)
+        except:
+            messages.error(request,"User does not exist")
+        user = authenticate(request,username=username,password=password)
+        if user is not None:
+            login(request,user)
+            return redirect('home')
+        else:
+            messages.error(request,"Username Or Password not exist")
     context= {}
     return render(request, 'base/login_register.html',context)
+def logoutUser(request):
+    logout(request)
+    return redirect('home')
 def home(request):
     print("HOME")
     q = request.GET.get('q') if request.GET.get('q') != None else '' #找url的"q"字串後的名稱
