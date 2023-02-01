@@ -1,7 +1,7 @@
 from django.shortcuts import render,redirect
 from django.http import HttpResponse
 from django.db.models import Q
-from .models import Room,Topic
+from .models import Room,Topic,Message
 from django.contrib import messages
 from django.contrib.auth import authenticate,login,logout
 from django.contrib.auth.forms import UserCreationForm
@@ -47,8 +47,16 @@ def home(request):
     context={'rooms':rooms,'topics':topics,'room_count':room_count}
     return render(request,'base/home.html',context)
 def room(request,pk):
-    room=Room.objects.get(id=pk)
-    context={'room':room}
+    room = Room.objects.get(id=pk)
+    room_messages =room.message_set.all().order_by('-created')
+    if request.method == 'POST':
+        message = Message.objects.create(
+            user=request.user,
+            room=room,
+            body=request.POST.get('body') #前端room.html送過來的Send Message
+        )
+        return redirect('room',pk=room.id)
+    context={'room':room,'room_messages':room_messages}
     return render(request,'base/room.html',context)
 
 @login_required(login_url='login')  #當還沒登入的時候鼓勵人登入
