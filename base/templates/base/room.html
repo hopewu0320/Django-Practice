@@ -15,7 +15,7 @@
             <hr>
             {% for message in room_messages %} 
                 <div>
-                    {% if request.user == message.user %} <!--按下delete鍵的user 跟message的user一不一樣-->
+                    {% if request.user == message.user %} <!--owner送的message 跟message的user一不一樣,request.user的資訊寫在navbar.html-->
                     <a href="{% url 'delete-message' message.id %}">Delete</a>
                     {% endif %}
                     <small>@{{message.user}} {{message.created | timesince}} ago</small>
