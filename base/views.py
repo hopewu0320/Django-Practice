@@ -48,15 +48,17 @@ def home(request):
     return render(request,'base/home.html',context)
 def room(request,pk):
     room = Room.objects.get(id=pk)
-    room_messages =room.message_set.all().order_by('-created')
+    room_messages = room.message_set.all().order_by('-created')
+    participants = room.participants.all()
     if request.method == 'POST':
         message = Message.objects.create(
             user=request.user,
             room=room,
             body=request.POST.get('body') #前端room.html送過來的Send Message
         )
+        room.participants.add(request.user)  #此user會被加入到many to many的系統
         return redirect('room',pk=room.id)
-    context={'room':room,'room_messages':room_messages}
+    context={'room':room,'room_messages':room_messages,'participants':participants}
     return render(request,'base/room.html',context)
 
 @login_required(login_url='login')  #當還沒登入的時候鼓勵人登入
@@ -86,11 +88,22 @@ def updateRoom(request,pk):
 @login_required(login_url='login') #確保有user登入下才能刪除房間
 def deleteRoom(request,pk):
     room = Room.objects.get(id=pk)
-    context={'obj':room}
+    context={'obj':room} #因為會delete room或者message所以用'obj'
     if request.user != room.host:
         return HttpResponse("You are not allowed here!!")
     if request.method == 'POST':
         room.delete()
+        return redirect('home')
+    return render(request,'base/delete.html',context)
+
+@login_required(login_url='login') #確保有user登入下才能刪除房間
+def deleteMessage(request,pk):
+    message = Message.objects.get(id=pk)
+    context={'obj':message}  #因為會delete room或者message所以用'obj'
+    if request.user != message.user:
+        return HttpResponse("You are not allowed here!!")
+    if request.method == 'POST':
+        message.delete()
         return redirect('home')
     return render(request,'base/delete.html',context)
 
