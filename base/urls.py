@@ -21,7 +21,8 @@ from . import views
 可改成path("room_page/<str:pk>",views.room,name='room') 還是會根據name去執行
 '''
 urlpatterns = [
-    path("room/<str:pk>",views.room,name='room'), 
+    path("room/<str:pk>",views.room,name='room'),
+    path("profile/<str:pk>",views.userProfile,name='user-profile'), 
     path("",views.home,name='home'),
     path("login/",views.loginPage,name='login'),
     path("register/",views.registerPage,name='register'),

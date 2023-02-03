@@ -1,0 +1,12 @@
+<h3>Browse Topics</h3>
+<hr>
+
+<div>
+    <a href="{% url 'home' %}">All</a>
+</div>
+<!--每點一次topic如(Python)就會match到path("",views.home,name='home') 執行views.home-->
+{% for topic in topics%}
+<div>
+    <a href="{% url 'home' %}?q={{topic.name}}">{{topic.name}}</a>
+</div>
+{% endfor %}
